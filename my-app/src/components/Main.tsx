@@ -1,7 +1,9 @@
+import Frame from './Frame/Frame';
+
 const Main = () => {
   return (
     <div>
-      <p></p>
+      <Frame />
     </div>
   );
 };

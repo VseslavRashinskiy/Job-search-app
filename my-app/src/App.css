@@ -106,3 +106,7 @@ h1 {
 .active{
   color: #5E96FC;
 }
+
+.frame {
+  width: 773px;
+}
