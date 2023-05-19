@@ -110,3 +110,10 @@ h1 {
 .frame {
   width: 773px;
 }
+
+.main{
+  display: flex;
+  margin: 40px auto;
+  max-width: 1116px;
+  justify-content: space-between;
+}

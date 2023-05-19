@@ -1,8 +1,10 @@
+import FilterCard from './MainContent/FilterCard';
 import Vacancies from './MainContent/Vacancies';
 
 const Main = () => {
   return (
-    <div>
+    <div className="main">
+      <FilterCard />
       <Vacancies />
     </div>
   );
