@@ -1,9 +1,9 @@
-import Frame from './Frame/Frame';
+import Vacancies from './MainContent/Vacancies';
 
 const Main = () => {
   return (
     <div>
-      <Frame />
+      <Vacancies />
     </div>
   );
 };
