@@ -9,7 +9,7 @@ export interface Vacancy {
   profession: string;
   payment_from: number;
   address: string;
-  canEdit: boolean;
+  favorite: boolean;
   type_of_work: {
     id: number;
     title: string;
@@ -18,6 +18,7 @@ export interface Vacancy {
     id: number;
     title: string;
   };
+  vacancyRichText: string;
 }
 
 const Main = () => {

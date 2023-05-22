@@ -9,7 +9,7 @@ interface JobCardProps {
 }
 
 const JobCard = ({ el }: JobCardProps) => {
-  const [isEdit, setIsEdit] = useState(el.canEdit);
+  const [isEdit, setIsEdit] = useState(el.favorite);
 
   useEffect(() => {
     const storageItems = JSON.parse(localStorage.getItem('savedItems') || '[]');
