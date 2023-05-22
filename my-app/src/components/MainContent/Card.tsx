@@ -1,7 +1,7 @@
 import { Card, Text, Avatar } from '@mantine/core';
 import { Star, MapPin } from 'tabler-icons-react';
-import { Vacancy } from '../constant';
 import { Link } from 'react-router-dom';
+import { Vacancy } from '../Main';
 
 interface JobCardProps {
   el: Vacancy;
@@ -14,7 +14,6 @@ const JobCard = ({ el }: JobCardProps) => {
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <div
             style={{
-              maxWidth: '339px',
               display: 'flex',
               flexDirection: 'column',
               justifyContent: 'space-between',
@@ -31,7 +30,7 @@ const JobCard = ({ el }: JobCardProps) => {
                 color: '#5E96FC',
               }}
             >
-              {el.title}
+              {el.profession}
             </Text>
             <div
               style={{
@@ -41,9 +40,16 @@ const JobCard = ({ el }: JobCardProps) => {
                 justifyContent: 'space-between',
               }}
             >
-              <Text size="sm" weight={700}>
-                з/п от {el.salary}
-              </Text>
+              {el.payment_from === 0 ? (
+                <Text size="sm" weight={700}>
+                  з/п Договорная
+                </Text>
+              ) : (
+                <Text size="sm" weight={700}>
+                  з/п от {el.payment_from}
+                </Text>
+              )}
+
               <Text
                 size="sm"
                 weight={700}
@@ -53,11 +59,11 @@ const JobCard = ({ el }: JobCardProps) => {
               >
                 •
               </Text>
-              <Text size="sm">{el.timeSchedule}</Text>
+              <Text size="sm">{el.type_of_work.title}</Text>
             </div>
             <div style={{ display: 'flex', alignItems: 'center' }}>
               <MapPin size={14} style={{ marginRight: '4px' }} />
-              <Text size="sm">{el.location}</Text>
+              <Text size="sm">{el.town.title}</Text>
             </div>
           </div>
           <Avatar size="xs" radius="sm" style={{ backgroundColor: 'transparent' }}>

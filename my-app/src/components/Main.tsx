@@ -3,22 +3,18 @@ import FilterCard from './MainContent/FilterCard';
 import Vacancies from './MainContent/Vacancies';
 import { getAccessToken } from './Response';
 import { useState, useEffect } from 'react';
-import vacancies from './constant';
 
 export interface Vacancy {
+  id: number;
+  profession: string;
+  payment_from: number;
   address: string;
-  age_from: number;
-  age_to: number;
-  agency: {
+  canEdit: boolean;
+  type_of_work: {
     id: number;
     title: string;
   };
-  agreement: boolean;
-  already_sent_on_vacancy: boolean;
-  anonymous: boolean;
-  canEdit: boolean;
-  candidat: string;
-  children: {
+  town: {
     id: number;
     title: string;
   };
@@ -29,7 +25,7 @@ const Main = () => {
 
   useEffect(() => {
     const fetchJobVacancies = async () => {
-      const proxyUrl = 'https://startup-summer-2023-proxy.onrender.com/2.0/vacancies/';
+      const proxyUrl = 'https://startup-summer-2023-proxy.onrender.com/2.0/vacancies/id_vacancy';
       const secretKey = 'GEU4nvd3rej*jeh.eqp';
       try {
         const accessToken = await getAccessToken();
@@ -52,7 +48,7 @@ const Main = () => {
     fetchJobVacancies();
   }, []);
 
-  console.log(jobs);
+  // console.log(jobs);
 
   return (
     <div className="main">
