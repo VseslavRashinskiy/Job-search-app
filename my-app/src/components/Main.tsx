@@ -1,7 +1,7 @@
 import axios from 'axios';
 import FilterCard from './MainContent/FilterCard';
 import Vacancies from './MainContent/Vacancies';
-import { getAccessToken } from './Response';
+import { getAccessToken } from './ResponseToken';
 import { useState, useEffect } from 'react';
 
 export interface Vacancy {
@@ -21,15 +21,17 @@ export interface Vacancy {
 }
 
 const Main = () => {
-  const [jobs, setJobs] = useState([]);
+  const [jobs, setJobs] = useState<Vacancy[]>([]);
+  const [filteredJobs, setFilteredJobs] = useState<Vacancy[]>([]);
+  const [isErr, setIsErr] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     const fetchJobVacancies = async () => {
-      const proxyUrl = 'https://startup-summer-2023-proxy.onrender.com/2.0/vacancies/id_vacancy';
+      const proxyUrl = 'https://startup-summer-2023-proxy.onrender.com/2.0/vacancies/';
       const secretKey = 'GEU4nvd3rej*jeh.eqp';
       try {
         const accessToken = await getAccessToken();
-
         const response = await axios.get(proxyUrl, {
           headers: {
             'X-Api-App-Id':
@@ -41,19 +43,36 @@ const Main = () => {
 
         const vacancies = response.data;
         setJobs(vacancies.objects);
+        setIsLoaded(true);
       } catch (error) {
-        console.error(error);
+        setIsLoaded(true);
+        setIsErr(true);
       }
     };
     fetchJobVacancies();
   }, []);
 
-  // console.log(jobs);
+  const handleSearch = (query: string) => {
+    const filtered = jobs.filter((job) =>
+      job.profession.toLowerCase().includes(query.toLowerCase())
+    );
+    if (filtered.length !== 0) {
+      setFilteredJobs(filtered);
+      setIsErr(false);
+    } else {
+      setIsErr(true);
+    }
+  };
 
   return (
     <div className="main">
       <FilterCard />
-      <Vacancies vacancies={jobs} />
+      <Vacancies
+        vacancies={filteredJobs.length > 0 ? filteredJobs : jobs}
+        handleSearch={handleSearch}
+        isErr={isErr}
+        isLoaded={isLoaded}
+      />
     </div>
   );
 };
