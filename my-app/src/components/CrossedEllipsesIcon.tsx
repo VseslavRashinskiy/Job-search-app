@@ -1,5 +1,3 @@
-import React from 'react';
-
 const CrossedEllipsesIcon: React.FC = () => {
   return (
     <span className="CrossedEllipsesIcon">

@@ -117,3 +117,7 @@ h1 {
   max-width: 1116px;
   justify-content: space-between;
 }
+
+button:hover svg {
+  color: #5E96FC;
+}

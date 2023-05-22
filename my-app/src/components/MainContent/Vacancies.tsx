@@ -1,5 +1,5 @@
 import { Vacancy } from '../Main';
-import JobCard from './Card';
+import JobCard from './JobCard';
 import SearchBar from './Search';
 import { Text } from '@mantine/core';
 

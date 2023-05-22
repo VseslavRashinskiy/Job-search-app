@@ -63,7 +63,6 @@ const Main = () => {
       setIsErr(true);
     }
   };
-
   return (
     <div className="main">
       <FilterCard />
