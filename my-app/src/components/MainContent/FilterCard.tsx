@@ -71,11 +71,13 @@ const FilterCard = ({ handleFilteredJobs, search }: FilterCardProps) => {
   const handleSalaryFromChange = (value: number | '') => {
     const parsedValue = value === '' ? 0 : parseInt(value.toString(), 10);
     setSelectedSalaryFrom(parsedValue);
+    localStorage.setItem('SalaryFrom', parsedValue.toString());
   };
 
   const handleSalaryToChange = (value: number | '') => {
     const parsedValue = value === '' ? 0 : parseInt(value.toString(), 10);
     setSelectedSalaryTo(parsedValue);
+    localStorage.setItem('SalaryTo', parsedValue.toString());
   };
 
   const handleSelectedCategory = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -83,6 +85,15 @@ const FilterCard = ({ handleFilteredJobs, search }: FilterCardProps) => {
       (category) => category.title === event.target.value
     );
     setSelectedIndustry(selectedCategory?.key || undefined);
+    if (selectedCategory) {
+      localStorage.setItem('Category', selectedCategory?.key.toString());
+    }
+  };
+
+  const ResetSettings = () => {
+    setSelectedIndustry(undefined);
+    setSelectedSalaryFrom(0);
+    setSelectedSalaryTo(0);
   };
 
   return (
@@ -110,6 +121,7 @@ const FilterCard = ({ handleFilteredJobs, search }: FilterCardProps) => {
         <Button
           variant="link"
           style={{ padding: 0, color: '#ACADB9', alignItems: 'center', maxHeight: '20px' }}
+          onClick={ResetSettings}
         >
           Сбросить все
           <X size={14} color={'#ACADB9'} />

@@ -30,6 +30,11 @@ function SearchBar({ handleSearch, handleFilteredJobs }: SearchBarProps) {
         params: {
           published: 1,
           keyword: searchQuery,
+          payment_from: localStorage.getItem('SalaryFrom') ? localStorage.getItem('SalaryFrom') : 0,
+          payment_to: localStorage.getItem('SalaryTo') ? localStorage.getItem('SalaryTo') : 0,
+          catalogues: localStorage.getItem('Category')
+            ? localStorage.getItem('Category')
+            : undefined,
         },
       });
 
