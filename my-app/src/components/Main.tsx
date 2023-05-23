@@ -55,23 +55,27 @@ const Main = () => {
     fetchJobVacancies();
   }, []);
 
-  const handleSearch = (query: string) => {
-    setSearch(query);
-  };
-
   const handleFilteredJobs = (filteredJobs: Vacancy[]) => {
     setFilteredJobs(filteredJobs);
   };
 
   return (
     <div className="main">
-      <FilterCard handleFilteredJobs={handleFilteredJobs} search={search} />
+      <FilterCard
+        handleFilteredJobs={handleFilteredJobs}
+        search={search}
+        setLoader={setIsLoaded}
+        setSearch={setSearch}
+      />
       <Vacancies
         vacancies={filteredJobs.length > 0 ? filteredJobs : jobs}
-        handleSearch={handleSearch}
+        // handleSearch={handleSearch}
         handleFilteredJobs={handleFilteredJobs}
         isErr={isErr}
         isLoaded={isLoaded}
+        setLoader={setIsLoaded}
+        setSearch={setSearch}
+        search={search}
       />
     </div>
   );

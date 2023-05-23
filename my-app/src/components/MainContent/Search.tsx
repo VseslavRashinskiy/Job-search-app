@@ -6,16 +6,17 @@ import { getAccessToken } from '../ResponseToken';
 import { Vacancy } from '../Main';
 
 interface SearchBarProps {
-  handleSearch: (query: string) => void;
   handleFilteredJobs: (filteredJobs: Vacancy[]) => void;
+  setLoader: React.Dispatch<React.SetStateAction<boolean>>;
+  setSearch: React.Dispatch<React.SetStateAction<string>>;
+  search: string;
 }
 
-function SearchBar({ handleSearch, handleFilteredJobs }: SearchBarProps) {
-  const [searchQuery, setSearchQuery] = useState('');
-
+function SearchBar({ handleFilteredJobs, setLoader, setSearch, search }: SearchBarProps) {
   const handleApplyFilter = async () => {
     const endpoint = 'https://startup-summer-2023-proxy.onrender.com/2.0/vacancies/';
     const secretKey = 'GEU4nvd3rej*jeh.eqp';
+    setLoader(false);
 
     try {
       const accessToken = await getAccessToken();
@@ -29,7 +30,7 @@ function SearchBar({ handleSearch, handleFilteredJobs }: SearchBarProps) {
         },
         params: {
           published: 1,
-          keyword: searchQuery,
+          keyword: search,
           payment_from: localStorage.getItem('SalaryFrom') ? localStorage.getItem('SalaryFrom') : 0,
           payment_to: localStorage.getItem('SalaryTo') ? localStorage.getItem('SalaryTo') : 0,
           catalogues: localStorage.getItem('Category')
@@ -37,15 +38,17 @@ function SearchBar({ handleSearch, handleFilteredJobs }: SearchBarProps) {
             : undefined,
         },
       });
-
+      setLoader(true);
       const filteredJobVacancies = response.data;
       handleFilteredJobs(filteredJobVacancies.objects);
-    } catch (error) {}
+    } catch (error) {
+      setLoader(true);
+    }
   };
 
   const handleSearchTerm = () => {
     handleApplyFilter();
-    handleSearch(searchQuery);
+    setSearch(search);
   };
 
   return (
@@ -54,8 +57,8 @@ function SearchBar({ handleSearch, handleFilteredJobs }: SearchBarProps) {
       size="md"
       placeholder="Введите название вакансии"
       icon={<Search size="0.8rem" />}
-      value={searchQuery}
-      onChange={(e) => setSearchQuery(e.currentTarget.value)}
+      value={search}
+      onChange={(e) => setSearch(e.currentTarget.value)}
       rightSection={
         <Button
           radius="sm"

@@ -11,8 +11,10 @@ export interface Categories {
 interface FilterCardProps {
   handleFilteredJobs: (filteredJobs: Vacancy[]) => void;
   search: string;
+  setLoader: React.Dispatch<React.SetStateAction<boolean>>;
+  setSearch: React.Dispatch<React.SetStateAction<string>>;
 }
-const FilterCard = ({ handleFilteredJobs, search }: FilterCardProps) => {
+const FilterCard = ({ handleFilteredJobs, search, setLoader, setSearch }: FilterCardProps) => {
   const [jobCategories, setJobCategories] = useState<Categories[]>([]);
   const [selectedIndustry, setSelectedIndustry] = useState<number | undefined>(undefined);
   const [selectedSalaryFrom, setSelectedSalaryFrom] = useState<number | ''>(0);
@@ -43,6 +45,7 @@ const FilterCard = ({ handleFilteredJobs, search }: FilterCardProps) => {
   const handleApplyFilter = async () => {
     const endpoint = 'https://startup-summer-2023-proxy.onrender.com/2.0/vacancies/';
     const secretKey = 'GEU4nvd3rej*jeh.eqp';
+    setLoader(false);
 
     try {
       const accessToken = await getAccessToken();
@@ -62,10 +65,12 @@ const FilterCard = ({ handleFilteredJobs, search }: FilterCardProps) => {
           catalogues: selectedIndustry !== undefined ? selectedIndustry : undefined,
         },
       });
-
+      setLoader(true);
       const filteredJobVacancies = response.data;
       handleFilteredJobs(filteredJobVacancies.objects);
-    } catch (error) {}
+    } catch (error) {
+      setLoader(true);
+    }
   };
 
   const handleSalaryFromChange = (value: number | '') => {
@@ -91,6 +96,7 @@ const FilterCard = ({ handleFilteredJobs, search }: FilterCardProps) => {
   };
 
   const ResetSettings = () => {
+    setSearch('');
     setSelectedIndustry(undefined);
     setSelectedSalaryFrom(0);
     setSelectedSalaryTo(0);
