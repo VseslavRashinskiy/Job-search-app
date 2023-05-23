@@ -121,3 +121,8 @@ h1 {
 button:hover svg {
   color: #5E96FC;
 }
+
+.empty {
+  max-width: 327px;
+  margin: 0 auto;
+}
