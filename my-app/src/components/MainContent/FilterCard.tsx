@@ -1,7 +1,83 @@
 import { Card, NativeSelect, NumberInput, Button } from '@mantine/core';
 import { ChevronDown, X } from 'tabler-icons-react';
+import { getAccessToken } from '../ResponseToken';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { Vacancy } from '../Main';
+export interface Categories {
+  key: number;
+  title: string;
+}
+interface FilterCardProps {
+  handleFilteredJobs: (filteredJobs: Vacancy[]) => void;
+  search: string;
+}
+const FilterCard = ({ handleFilteredJobs, search }: FilterCardProps) => {
+  const [jobCategories, setJobCategories] = useState<Categories[]>([]);
+  const [selectedIndustry, setSelectedIndustry] = useState<number | undefined>(undefined);
+  const [selectedSalaryFrom, setSelectedSalaryFrom] = useState<number | ''>(0);
+  const [selectedSalaryTo, setSelectedSalaryTo] = useState<number | ''>(0);
 
-const FilterCard = () => {
+  useEffect(() => {
+    const fetchJobCategories = async () => {
+      const proxyUrl = 'https://startup-summer-2023-proxy.onrender.com/2.0/catalogues/';
+      const secretKey = 'GEU4nvd3rej*jeh.eqp';
+      try {
+        const accessToken = await getAccessToken();
+        const response = await axios.get(proxyUrl, {
+          headers: {
+            'X-Api-App-Id':
+              'v3.r.137440105.ffdbab114f92b821eac4e21f485343924a773131.06c3bdbb8446aeb91c35b80c42ff69eb9c457948',
+            'x-secret-key': secretKey,
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
+
+        const categories = response.data;
+        setJobCategories(categories);
+      } catch (error) {}
+    };
+    fetchJobCategories();
+  }, []);
+
+  const handleApplyFilter = async () => {
+    const endpoint = 'https://startup-summer-2023-proxy.onrender.com/2.0/vacancies/';
+    const secretKey = 'GEU4nvd3rej*jeh.eqp';
+
+    try {
+      const accessToken = await getAccessToken();
+
+      const response = await axios.get(endpoint, {
+        headers: {
+          'X-Api-App-Id':
+            'v3.r.137440105.ffdbab114f92b821eac4e21f485343924a773131.06c3bdbb8446aeb91c35b80c42ff69eb9c457948',
+          'x-secret-key': secretKey,
+          Authorization: `Bearer ${accessToken}`,
+        },
+        params: {
+          published: 1,
+          keyword: search,
+          payment_from: selectedSalaryFrom === '' ? 0 : selectedSalaryFrom,
+          payment_to: selectedSalaryTo === '' ? 0 : selectedSalaryTo,
+          catalogues: selectedIndustry !== undefined ? selectedIndustry : undefined,
+        },
+      });
+
+      const filteredJobVacancies = response.data;
+      handleFilteredJobs(filteredJobVacancies.objects);
+    } catch (error) {}
+  };
+
+  const handleSalaryFromChange = (value: number | '') => {
+    const parsedValue = value === '' ? 0 : parseInt(value.toString(), 10);
+    setSelectedSalaryFrom(parsedValue);
+  };
+
+  const handleSalaryToChange = (value: number | '') => {
+    const parsedValue = value === '' ? 0 : parseInt(value.toString(), 10);
+    setSelectedSalaryTo(parsedValue);
+  };
+
   return (
     <Card
       shadow="sm"
@@ -39,8 +115,19 @@ const FilterCard = () => {
         <NativeSelect
           style={{ marginTop: '8px' }}
           id="industry"
-          data={['IT', 'Sales', 'Design', 'Marketing']}
+          data={jobCategories.map((el) => el.title)}
           placeholder="Выберите отрасль"
+          value={
+            selectedIndustry !== undefined
+              ? jobCategories.find((category) => category.key === selectedIndustry)?.title
+              : ''
+          }
+          onChange={(event) => {
+            const selectedCategory = jobCategories.find(
+              (category) => category.title === event.target.value
+            );
+            setSelectedIndustry(selectedCategory?.key || undefined);
+          }}
           rightSection={<ChevronDown size="1rem" />}
         />
       </div>
@@ -65,11 +152,21 @@ const FilterCard = () => {
             min={0}
             max={100000}
             style={{ marginBottom: '8px' }}
+            value={selectedSalaryFrom}
+            onChange={handleSalaryFromChange}
           />
-          <NumberInput id="salaryTo" placeholder="До" min={0} max={100000} />
+
+          <NumberInput
+            id="salaryTo"
+            placeholder="До"
+            min={0}
+            max={100000}
+            value={selectedSalaryTo}
+            onChange={handleSalaryToChange}
+          />
         </div>
       </div>
-      <Button variant="filled" fullWidth>
+      <Button onClick={handleApplyFilter} variant="filled" fullWidth>
         Применить
       </Button>
     </Card>

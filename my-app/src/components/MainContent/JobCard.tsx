@@ -65,7 +65,7 @@ const JobCard = ({ el }: JobCardProps) => {
                 </Text>
               ) : (
                 <Text size="sm" weight={700}>
-                  з/п от {el.payment_from}
+                  з/п от {el.payment_from} {el.currency}
                 </Text>
               )}
 

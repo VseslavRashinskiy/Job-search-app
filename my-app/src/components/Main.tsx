@@ -18,11 +18,13 @@ export interface Vacancy {
     id: number;
     title: string;
   };
+  currency: string;
   vacancyRichText: string;
 }
 
 const Main = () => {
   const [jobs, setJobs] = useState<Vacancy[]>([]);
+  const [search, setSearch] = useState('');
   const [filteredJobs, setFilteredJobs] = useState<Vacancy[]>([]);
   const [isErr, setIsErr] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -54,19 +56,16 @@ const Main = () => {
   }, []);
 
   const handleSearch = (query: string) => {
-    const filtered = jobs.filter((job) =>
-      job.profession.toLowerCase().includes(query.toLowerCase())
-    );
-    if (filtered.length !== 0) {
-      setFilteredJobs(filtered);
-      setIsErr(false);
-    } else {
-      setIsErr(true);
-    }
+    setSearch(query);
   };
+
+  const handleFilteredJobs = (filteredJobs: Vacancy[]) => {
+    setFilteredJobs(filteredJobs);
+  };
+
   return (
     <div className="main">
-      <FilterCard />
+      <FilterCard handleFilteredJobs={handleFilteredJobs} search={search} />
       <Vacancies
         vacancies={filteredJobs.length > 0 ? filteredJobs : jobs}
         handleSearch={handleSearch}

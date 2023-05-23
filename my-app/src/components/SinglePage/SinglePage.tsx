@@ -1,9 +1,9 @@
 import { useParams } from 'react-router';
 import { useEffect, useState } from 'react';
-import { getAccessToken } from './ResponseToken';
+import { getAccessToken } from '../ResponseToken';
 import axios from 'axios';
-import JobCard from './MainContent/JobCard';
-import { Vacancy } from './Main';
+import JobCard from '../MainContent/JobCard';
+import { Vacancy } from '../Main';
 import { Card } from '@mantine/core';
 
 const SinglePage = () => {
@@ -23,6 +23,7 @@ const SinglePage = () => {
       title: '',
     },
     vacancyRichText: '',
+    currency: '',
   });
 
   useEffect(() => {
