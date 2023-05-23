@@ -28,7 +28,13 @@ const JobCard = ({ el }: JobCardProps) => {
   };
 
   return (
-    <Card padding="lg" shadow="sm" radius="md" style={{ margin: '16px 0' }}>
+    <Card
+      data-elem={`vacancy-${el.id}`}
+      padding="lg"
+      shadow="sm"
+      radius="md"
+      style={{ margin: '16px 0' }}
+    >
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <Link to={`/${el.id}`} style={{ textDecoration: 'none' }}>
           <div
@@ -88,6 +94,7 @@ const JobCard = ({ el }: JobCardProps) => {
         </Link>
 
         <button
+          data-elem={`vacancy-${el.id}-shortlist-button`}
           onClick={handleStarClick}
           style={{
             backgroundColor: 'transparent',

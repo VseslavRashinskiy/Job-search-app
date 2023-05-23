@@ -1,6 +1,5 @@
 import { TextInput, Button } from '@mantine/core';
 import axios from 'axios';
-import { useState } from 'react';
 import { Search } from 'tabler-icons-react';
 import { getAccessToken } from '../ResponseToken';
 import { Vacancy } from '../Main';
@@ -53,6 +52,7 @@ function SearchBar({ handleFilteredJobs, setLoader, setSearch, search }: SearchB
 
   return (
     <TextInput
+      data-elem="search-input"
       radius="md"
       size="md"
       placeholder="Введите название вакансии"
@@ -61,6 +61,7 @@ function SearchBar({ handleFilteredJobs, setLoader, setSearch, search }: SearchB
       onChange={(e) => setSearch(e.currentTarget.value)}
       rightSection={
         <Button
+          data-elem="search-button"
           radius="sm"
           size="xs"
           style={{

@@ -140,6 +140,7 @@ const FilterCard = ({ handleFilteredJobs, search, setLoader, setSearch }: Filter
         <NativeSelect
           style={{ marginTop: '8px' }}
           id="industry"
+          data-elem="industry-select"
           data={jobCategories.map((el) => el.title)}
           placeholder="Выберите отрасль"
           value={
@@ -168,6 +169,7 @@ const FilterCard = ({ handleFilteredJobs, search, setLoader, setSearch }: Filter
         >
           <NumberInput
             id="salaryFrom"
+            data-elem="salary-from-input"
             placeholder="От"
             min={0}
             max={100000}
@@ -178,6 +180,7 @@ const FilterCard = ({ handleFilteredJobs, search, setLoader, setSearch }: Filter
 
           <NumberInput
             id="salaryTo"
+            data-elem="salary-to-input"
             placeholder="До"
             min={0}
             max={100000}
@@ -186,7 +189,7 @@ const FilterCard = ({ handleFilteredJobs, search, setLoader, setSearch }: Filter
           />
         </div>
       </div>
-      <Button onClick={handleApplyFilter} variant="filled" fullWidth>
+      <Button data-elem="search-button" onClick={handleApplyFilter} variant="filled" fullWidth>
         Применить
       </Button>
     </Card>
