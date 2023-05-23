@@ -1,7 +1,8 @@
 import { Vacancy } from '../Main';
 import JobCard from './JobCard';
 import SearchBar from './Search';
-import { Text } from '@mantine/core';
+import { Text, Pagination } from '@mantine/core';
+import { useState } from 'react';
 
 interface VacanciesProps {
   vacancies: Vacancy[];
@@ -14,6 +15,18 @@ interface VacanciesProps {
 }
 
 const Vacancies = (props: VacanciesProps) => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 4;
+  const totalPages = Math.ceil(props.vacancies.length / itemsPerPage);
+
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const visibleJobs = props.vacancies.slice(startIndex, endIndex);
+
+  const handlePageChange = (newPage: number) => {
+    setCurrentPage(newPage);
+  };
+
   return (
     <div className="frame">
       <SearchBar
@@ -24,12 +37,25 @@ const Vacancies = (props: VacanciesProps) => {
       />
       {!props.isLoaded ? (
         <Text>
-          Loading <img height={22} src="https://i.ibb.co/RpSP280/6.gif"></img>
+          Loading <img height={22} src="https://i.ibb.co/RpSP280/6.gif" alt="loading"></img>
         </Text>
       ) : (
-        (!props.isErr && props.vacancies.map((el) => <JobCard key={el.id} el={el} />)) || (
+        (!props.isErr && visibleJobs.map((el) => <JobCard key={el.id} el={el} />)) || (
           <Text>Not Found</Text>
         )
+      )}
+
+      {totalPages > 1 && (
+        <div style={{ display: 'flex', justifyContent: 'center', marginTop: '1rem' }}>
+          <Pagination
+            total={totalPages}
+            value={currentPage}
+            onChange={handlePageChange}
+            size="sm"
+            radius="sm"
+            variant="outline"
+          />
+        </div>
       )}
     </div>
   );
