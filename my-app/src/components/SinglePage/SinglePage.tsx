@@ -43,9 +43,7 @@ const SinglePage = () => {
 
         const vacancies = response.data;
         setVacancy(vacancies);
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
     };
     fetchJobVacancies();
   }, [id]);

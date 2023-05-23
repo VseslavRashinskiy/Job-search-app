@@ -69,6 +69,7 @@ const Main = () => {
       <Vacancies
         vacancies={filteredJobs.length > 0 ? filteredJobs : jobs}
         handleSearch={handleSearch}
+        handleFilteredJobs={handleFilteredJobs}
         isErr={isErr}
         isLoaded={isLoaded}
       />

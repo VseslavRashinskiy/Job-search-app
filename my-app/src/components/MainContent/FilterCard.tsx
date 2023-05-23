@@ -78,6 +78,13 @@ const FilterCard = ({ handleFilteredJobs, search }: FilterCardProps) => {
     setSelectedSalaryTo(parsedValue);
   };
 
+  const handleSelectedCategory = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedCategory = jobCategories.find(
+      (category) => category.title === event.target.value
+    );
+    setSelectedIndustry(selectedCategory?.key || undefined);
+  };
+
   return (
     <Card
       shadow="sm"
@@ -122,12 +129,7 @@ const FilterCard = ({ handleFilteredJobs, search }: FilterCardProps) => {
               ? jobCategories.find((category) => category.key === selectedIndustry)?.title
               : ''
           }
-          onChange={(event) => {
-            const selectedCategory = jobCategories.find(
-              (category) => category.title === event.target.value
-            );
-            setSelectedIndustry(selectedCategory?.key || undefined);
-          }}
+          onChange={handleSelectedCategory}
           rightSection={<ChevronDown size="1rem" />}
         />
       </div>
