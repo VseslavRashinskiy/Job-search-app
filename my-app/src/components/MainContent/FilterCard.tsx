@@ -93,18 +93,7 @@ const FilterCard = ({ handleFilteredJobs, search, setLoader, setSearch }: Filter
   };
 
   return (
-    <Card
-      shadow="sm"
-      padding="md"
-      radius="md"
-      style={{
-        maxHeight: '360px',
-        maxWidth: '315px',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'space-between',
-      }}
-    >
+    <Card className="filters" shadow="sm" padding="md" radius="md">
       <div
         style={{
           display: 'flex',
