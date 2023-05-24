@@ -1,6 +1,6 @@
 import JobCard from '../MainContent/JobCard';
 import { Vacancy } from '../constants';
-import EmptyPage from '../EmptyPage';
+import EmptyPage from '../EmptyPageFavorites';
 
 const Favorites = () => {
   const savedItems = JSON.parse(localStorage.getItem('savedItems') || '[]');

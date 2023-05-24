@@ -44,7 +44,6 @@ const Main = () => {
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
   };
-  console.log(jobs);
   return (
     <div className="main">
       <FilterCard

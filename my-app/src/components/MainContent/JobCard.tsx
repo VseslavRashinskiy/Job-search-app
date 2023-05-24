@@ -32,7 +32,7 @@ const JobCard = ({ el }: JobCardProps) => {
       style={{ margin: '16px 0' }}
     >
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <Link to={`/${el.id}`} style={{ textDecoration: 'none' }}>
+        <Link to={`/${el.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
           <div
             style={{
               display: 'flex',
@@ -53,14 +53,7 @@ const JobCard = ({ el }: JobCardProps) => {
             >
               {el.profession}
             </Text>
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                marginTop: '4px',
-                justifyContent: 'space-between',
-              }}
-            >
+            <div className="property-vacancy">
               {el.payment_from === 0 ? (
                 <Text size="sm" weight={700}>
                   з/п Договорная
@@ -76,6 +69,7 @@ const JobCard = ({ el }: JobCardProps) => {
                 weight={700}
                 style={{
                   color: 'gray',
+                  margin: '0 12px',
                 }}
               >
                 •
@@ -88,7 +82,6 @@ const JobCard = ({ el }: JobCardProps) => {
             </div>
           </div>
         </Link>
-
         <button
           data-elem={`vacancy-${el.id}-shortlist-button`}
           onClick={handleStarClick}

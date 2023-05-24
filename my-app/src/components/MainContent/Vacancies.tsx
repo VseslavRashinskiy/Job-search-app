@@ -12,7 +12,7 @@ import JobCard from './JobCard';
 import SearchBar from './Search';
 import { Text, Pagination } from '@mantine/core';
 import { useEffect, useState } from 'react';
-import EmptyPage from '../EmptyPage';
+import EmptyPage from '../EmptyPageFavorites';
 
 const Vacancies = (props: VacanciesProps) => {
   const [countPages, setCountPages] = useState(MAX_API);
@@ -35,7 +35,6 @@ const Vacancies = (props: VacanciesProps) => {
         });
 
         const vacancies = response.data;
-        console.log(vacancies.objects, 'vac');
         props.setLoader(true);
         props.setJobs(vacancies.objects);
       } catch (error) {

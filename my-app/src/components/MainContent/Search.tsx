@@ -72,6 +72,7 @@ function SearchBar({
           size="xs"
           style={{
             marginLeft: '-35px',
+            backgroundColor: '#5E96FC',
           }}
           onClick={handleSearchTerm}
         >
