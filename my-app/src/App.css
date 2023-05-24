@@ -81,7 +81,7 @@ h1 {
 }
 
 .frame {
-  max-width: 773px;
+  width: 773px;
 }
 
 .main{
@@ -137,6 +137,9 @@ button:hover svg {
 @media (max-width: 575px) {
   header {
     padding: 15px;
+  }
+  .frame {
+    width: 100%;
   }
   .main {
     flex-direction: column;
