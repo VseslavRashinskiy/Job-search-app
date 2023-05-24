@@ -99,7 +99,12 @@ const JobCard = ({ el }: JobCardProps) => {
               transition: 'color 0.3s',
             }}
           >
-            <Star style={{ color: isEdit ? '#5E96FC' : 'inherit' }} />
+            <Star
+              style={{
+                color: isEdit ? '#5E96FC' : 'inherit',
+                fill: isEdit ? '#5E96FC' : '',
+              }}
+            />
           </Avatar>
         </button>
       </div>
