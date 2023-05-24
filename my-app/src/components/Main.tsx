@@ -3,29 +3,12 @@ import FilterCard from './MainContent/FilterCard';
 import Vacancies from './MainContent/Vacancies';
 import { getAccessToken } from './ResponseToken';
 import { useState, useEffect } from 'react';
-
-export interface Vacancy {
-  id: number;
-  profession: string;
-  payment_from: number;
-  address: string;
-  favorite: boolean;
-  type_of_work: {
-    id: number;
-    title: string;
-  };
-  town: {
-    id: number;
-    title: string;
-  };
-  currency: string;
-  vacancyRichText: string;
-}
+import { DEF_VAC, Vacancy } from './constants';
 
 const Main = () => {
+  const [currentPage, setCurrentPage] = useState(1);
   const [jobs, setJobs] = useState<Vacancy[]>([]);
   const [search, setSearch] = useState('');
-  const [filteredJobs, setFilteredJobs] = useState<Vacancy[]>([]);
   const [isErr, setIsErr] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -42,6 +25,10 @@ const Main = () => {
             'x-secret-key': secretKey,
             Authorization: `Bearer ${accessToken}`,
           },
+          params: {
+            page: currentPage,
+            count: DEF_VAC,
+          },
         });
 
         const vacancies = response.data;
@@ -53,12 +40,15 @@ const Main = () => {
       }
     };
     fetchJobVacancies();
-  }, []);
+  }, [currentPage]);
 
   const handleFilteredJobs = (filteredJobs: Vacancy[]) => {
-    setFilteredJobs(filteredJobs);
+    setJobs(filteredJobs);
   };
 
+  const handlePageChange = (newPage: number) => {
+    setCurrentPage(newPage);
+  };
   return (
     <div className="main">
       <FilterCard
@@ -68,13 +58,17 @@ const Main = () => {
         setSearch={setSearch}
       />
       <Vacancies
-        vacancies={filteredJobs.length > 0 ? filteredJobs : jobs}
+        vacancies={jobs}
         handleFilteredJobs={handleFilteredJobs}
+        setJobs={setJobs}
         isErr={isErr}
         isLoaded={isLoaded}
         setLoader={setIsLoaded}
         setSearch={setSearch}
         search={search}
+        handlePageChange={handlePageChange}
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
       />
     </div>
   );

@@ -3,28 +3,12 @@ import { useEffect, useState } from 'react';
 import { getAccessToken } from '../ResponseToken';
 import axios from 'axios';
 import JobCard from '../MainContent/JobCard';
-import { Vacancy } from '../Main';
 import { Card } from '@mantine/core';
+import { START_PROPERTY, Vacancy } from '../constants';
 
 const SinglePage = () => {
   const { id } = useParams();
-  const [vacancy, setVacancy] = useState<Vacancy>({
-    id: 0,
-    profession: '',
-    payment_from: 0,
-    address: '',
-    favorite: false,
-    type_of_work: {
-      id: 0,
-      title: '',
-    },
-    town: {
-      id: 0,
-      title: '',
-    },
-    vacancyRichText: '',
-    currency: '',
-  });
+  const [vacancy, setVacancy] = useState<Vacancy>(START_PROPERTY);
 
   useEffect(() => {
     const fetchJobVacancies = async () => {

@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
-import { Vacancy } from '../Main';
 import JobCard from '../MainContent/JobCard';
 import { Button } from '@mantine/core';
+import { Vacancy } from '../constants';
 
 const Favorites = () => {
   const savedItems = JSON.parse(localStorage.getItem('savedItems') || '[]');

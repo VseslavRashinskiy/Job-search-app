@@ -3,17 +3,14 @@ import { ChevronDown, X } from 'tabler-icons-react';
 import { getAccessToken } from '../ResponseToken';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { Vacancy } from '../Main';
-export interface Categories {
-  key: number;
-  title: string;
-}
-interface FilterCardProps {
-  handleFilteredJobs: (filteredJobs: Vacancy[]) => void;
-  search: string;
-  setLoader: React.Dispatch<React.SetStateAction<boolean>>;
-  setSearch: React.Dispatch<React.SetStateAction<string>>;
-}
+import {
+  Categories,
+  FilterCardProps,
+  REMOVE_CATEGORY,
+  REMOVE_SALARY_FROM,
+  REMOVE_SALARY_TO,
+} from '../constants';
+
 const FilterCard = ({ handleFilteredJobs, search, setLoader, setSearch }: FilterCardProps) => {
   const [jobCategories, setJobCategories] = useState<Categories[]>([]);
   const [selectedIndustry, setSelectedIndustry] = useState<number | undefined>(undefined);
@@ -60,6 +57,8 @@ const FilterCard = ({ handleFilteredJobs, search, setLoader, setSearch }: Filter
         params: {
           published: 1,
           keyword: search,
+          page: 0,
+          count: 4,
           payment_from: selectedSalaryFrom === '' ? 0 : selectedSalaryFrom,
           payment_to: selectedSalaryTo === '' ? 0 : selectedSalaryTo,
           catalogues: selectedIndustry !== undefined ? selectedIndustry : undefined,
@@ -96,6 +95,9 @@ const FilterCard = ({ handleFilteredJobs, search, setLoader, setSearch }: Filter
   };
 
   const ResetSettings = () => {
+    REMOVE_CATEGORY;
+    REMOVE_SALARY_FROM;
+    REMOVE_SALARY_TO;
     setSearch('');
     setSelectedIndustry(undefined);
     setSelectedSalaryFrom(0);

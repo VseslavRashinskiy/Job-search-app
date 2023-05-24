@@ -2,16 +2,25 @@ import { TextInput, Button } from '@mantine/core';
 import axios from 'axios';
 import { Search } from 'tabler-icons-react';
 import { getAccessToken } from '../ResponseToken';
-import { Vacancy } from '../Main';
+import { DEF_VAC, Vacancy } from '../constants';
 
 interface SearchBarProps {
   handleFilteredJobs: (filteredJobs: Vacancy[]) => void;
   setLoader: React.Dispatch<React.SetStateAction<boolean>>;
   setSearch: React.Dispatch<React.SetStateAction<string>>;
   search: string;
+  currentPage: number;
+  handleApplyPage: (totalPages: number) => void;
 }
 
-function SearchBar({ handleFilteredJobs, setLoader, setSearch, search }: SearchBarProps) {
+function SearchBar({
+  handleFilteredJobs,
+  setLoader,
+  setSearch,
+  search,
+  currentPage,
+  handleApplyPage,
+}: SearchBarProps) {
   const handleApplyFilter = async () => {
     const endpoint = 'https://startup-summer-2023-proxy.onrender.com/2.0/vacancies/';
     const secretKey = 'GEU4nvd3rej*jeh.eqp';
@@ -30,6 +39,8 @@ function SearchBar({ handleFilteredJobs, setLoader, setSearch, search }: SearchB
         params: {
           published: 1,
           keyword: search,
+          page: currentPage,
+          count: DEF_VAC,
           payment_from: localStorage.getItem('SalaryFrom') ? localStorage.getItem('SalaryFrom') : 0,
           payment_to: localStorage.getItem('SalaryTo') ? localStorage.getItem('SalaryTo') : 0,
           catalogues: localStorage.getItem('Category')
@@ -39,6 +50,7 @@ function SearchBar({ handleFilteredJobs, setLoader, setSearch, search }: SearchB
       });
       setLoader(true);
       const filteredJobVacancies = response.data;
+      handleApplyPage(filteredJobVacancies.total);
       handleFilteredJobs(filteredJobVacancies.objects);
     } catch (error) {
       setLoader(true);

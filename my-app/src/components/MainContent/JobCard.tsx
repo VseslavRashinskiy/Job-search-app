@@ -1,12 +1,8 @@
 import { Card, Text, Avatar } from '@mantine/core';
 import { Star, MapPin } from 'tabler-icons-react';
 import { Link } from 'react-router-dom';
-import { Vacancy } from '../Main';
 import { useState, useEffect } from 'react';
-
-interface JobCardProps {
-  el: Vacancy;
-}
+import { JobCardProps, Vacancy } from '../constants';
 
 const JobCard = ({ el }: JobCardProps) => {
   const [isEdit, setIsEdit] = useState(el.favorite);
