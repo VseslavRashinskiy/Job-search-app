@@ -1,24 +1,21 @@
 import axios, { AxiosResponse } from 'axios';
+import { API_URL_CATALOGUES, API_URL_PASSWORD, CLIENT_SECRET, SECRET_KEY } from './constants';
 
 export const getAccessToken = async () => {
-  const apiUrl = 'https://startup-summer-2023-proxy.onrender.com/2.0/oauth2/password/';
-  const secretKey = 'GEU4nvd3rej*jeh.eqp';
-
   try {
     const response: AxiosResponse = await axios.post(
-      apiUrl,
+      API_URL_PASSWORD,
       {
         login: 'sergei.stralenia@gmail.com',
         password: 'paralect123',
         client_id: '2356',
-        client_secret:
-          'v3.r.137440105.ffdbab114f92b821eac4e21f485343924a773131.06c3bdbb8446aeb91c35b80c42ff69eb9c457948',
+        client_secret: CLIENT_SECRET,
         hr: '0',
       },
       {
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
-          'x-secret-key': secretKey,
+          'x-secret-key': SECRET_KEY,
         },
       }
     );
@@ -29,4 +26,22 @@ export const getAccessToken = async () => {
     console.error('Error fetching access token:', error);
     throw error;
   }
+};
+
+export const fetchJobCategories = async () => {
+  const proxyUrl = API_URL_CATALOGUES;
+  const secretKey = SECRET_KEY;
+  try {
+    const accessToken = await getAccessToken();
+    const response = await axios.get(proxyUrl, {
+      headers: {
+        'X-Api-App-Id': CLIENT_SECRET,
+        'x-secret-key': secretKey,
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    const categories = response.data;
+    return categories;
+  } catch (error) {}
 };

@@ -3,7 +3,7 @@ import FilterCard from './MainContent/FilterCard';
 import Vacancies from './MainContent/Vacancies';
 import { getAccessToken } from './ResponseToken';
 import { useState, useEffect } from 'react';
-import { DEF_VAC, Vacancy } from './constants';
+import { API_URL_VACANCIES, CLIENT_SECRET, DEF_VAC, SECRET_KEY, Vacancy } from './constants';
 
 const Main = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -14,15 +14,12 @@ const Main = () => {
 
   useEffect(() => {
     const fetchJobVacancies = async () => {
-      const proxyUrl = 'https://startup-summer-2023-proxy.onrender.com/2.0/vacancies/';
-      const secretKey = 'GEU4nvd3rej*jeh.eqp';
       try {
         const accessToken = await getAccessToken();
-        const response = await axios.get(proxyUrl, {
+        const response = await axios.get(API_URL_VACANCIES, {
           headers: {
-            'X-Api-App-Id':
-              'v3.r.137440105.ffdbab114f92b821eac4e21f485343924a773131.06c3bdbb8446aeb91c35b80c42ff69eb9c457948',
-            'x-secret-key': secretKey,
+            'X-Api-App-Id': CLIENT_SECRET,
+            'x-secret-key': SECRET_KEY,
             Authorization: `Bearer ${accessToken}`,
           },
           params: {

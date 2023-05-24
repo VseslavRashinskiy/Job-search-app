@@ -1,6 +1,13 @@
 import axios from 'axios';
 import { getAccessToken } from '../ResponseToken';
-import { DEF_VAC, MAX_API, VacanciesProps } from '../constants';
+import {
+  API_URL_VACANCIES,
+  CLIENT_SECRET,
+  DEF_VAC,
+  MAX_API,
+  SECRET_KEY,
+  VacanciesProps,
+} from '../constants';
 import JobCard from './JobCard';
 import SearchBar from './Search';
 import { Text, Pagination } from '@mantine/core';
@@ -8,20 +15,16 @@ import { useEffect, useState } from 'react';
 
 const Vacancies = (props: VacanciesProps) => {
   const [countPages, setCountPages] = useState(MAX_API);
-  const itemsPerPage = 4;
-  const totalPages = Math.ceil(countPages / itemsPerPage);
+  const totalPages = Math.ceil(countPages / DEF_VAC);
 
   useEffect(() => {
     const fetchJobVacancies = async () => {
-      const proxyUrl = 'https://startup-summer-2023-proxy.onrender.com/2.0/vacancies/';
-      const secretKey = 'GEU4nvd3rej*jeh.eqp';
       try {
         const accessToken = await getAccessToken();
-        const response = await axios.get(proxyUrl, {
+        const response = await axios.get(API_URL_VACANCIES, {
           headers: {
-            'X-Api-App-Id':
-              'v3.r.137440105.ffdbab114f92b821eac4e21f485343924a773131.06c3bdbb8446aeb91c35b80c42ff69eb9c457948',
-            'x-secret-key': secretKey,
+            'X-Api-App-Id': CLIENT_SECRET,
+            'x-secret-key': SECRET_KEY,
             Authorization: `Bearer ${accessToken}`,
           },
           params: {
@@ -38,7 +41,7 @@ const Vacancies = (props: VacanciesProps) => {
       }
     };
     fetchJobVacancies();
-  }, [props.currentPage]);
+  }, [props, props.currentPage]);
 
   const handlePageChange = (newPage: number) => {
     props.setCurrentPage(newPage);

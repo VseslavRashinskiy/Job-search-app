@@ -1,3 +1,11 @@
+export const API_URL_PASSWORD =
+  'https://startup-summer-2023-proxy.onrender.com/2.0/oauth2/password/';
+export const CLIENT_SECRET =
+  'v3.r.137440105.ffdbab114f92b821eac4e21f485343924a773131.06c3bdbb8446aeb91c35b80c42ff69eb9c457948';
+export const API_URL_VACANCIES = 'https://startup-summer-2023-proxy.onrender.com/2.0/vacancies/';
+export const API_URL_CATALOGUES = 'https://startup-summer-2023-proxy.onrender.com/2.0/catalogues/';
+export const SECRET_KEY = 'GEU4nvd3rej*jeh.eqp';
+
 export const MAX_API = 500;
 export const DEF_VAC = 4;
 
@@ -64,6 +72,15 @@ export interface Categories {
 
 export interface JobCardProps {
   el: Vacancy;
+}
+
+export interface SearchBarProps {
+  handleFilteredJobs: (filteredJobs: Vacancy[]) => void;
+  setLoader: React.Dispatch<React.SetStateAction<boolean>>;
+  setSearch: React.Dispatch<React.SetStateAction<string>>;
+  search: string;
+  currentPage: number;
+  handleApplyPage: (totalPages: number) => void;
 }
 
 export const REMOVE_SALARY_TO = localStorage.removeItem('SalaryTo');

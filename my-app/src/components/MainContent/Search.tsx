@@ -2,16 +2,13 @@ import { TextInput, Button } from '@mantine/core';
 import axios from 'axios';
 import { Search } from 'tabler-icons-react';
 import { getAccessToken } from '../ResponseToken';
-import { DEF_VAC, Vacancy } from '../constants';
-
-interface SearchBarProps {
-  handleFilteredJobs: (filteredJobs: Vacancy[]) => void;
-  setLoader: React.Dispatch<React.SetStateAction<boolean>>;
-  setSearch: React.Dispatch<React.SetStateAction<string>>;
-  search: string;
-  currentPage: number;
-  handleApplyPage: (totalPages: number) => void;
-}
+import {
+  API_URL_VACANCIES,
+  CLIENT_SECRET,
+  DEF_VAC,
+  SECRET_KEY,
+  SearchBarProps,
+} from '../constants';
 
 function SearchBar({
   handleFilteredJobs,
@@ -22,18 +19,15 @@ function SearchBar({
   handleApplyPage,
 }: SearchBarProps) {
   const handleApplyFilter = async () => {
-    const endpoint = 'https://startup-summer-2023-proxy.onrender.com/2.0/vacancies/';
-    const secretKey = 'GEU4nvd3rej*jeh.eqp';
     setLoader(false);
 
     try {
       const accessToken = await getAccessToken();
 
-      const response = await axios.get(endpoint, {
+      const response = await axios.get(API_URL_VACANCIES, {
         headers: {
-          'X-Api-App-Id':
-            'v3.r.137440105.ffdbab114f92b821eac4e21f485343924a773131.06c3bdbb8446aeb91c35b80c42ff69eb9c457948',
-          'x-secret-key': secretKey,
+          'X-Api-App-Id': CLIENT_SECRET,
+          'x-secret-key': SECRET_KEY,
           Authorization: `Bearer ${accessToken}`,
         },
         params: {

@@ -1,14 +1,18 @@
 import { Card, NativeSelect, NumberInput, Button } from '@mantine/core';
 import { ChevronDown, X } from 'tabler-icons-react';
-import { getAccessToken } from '../ResponseToken';
+import { fetchJobCategories, getAccessToken } from '../ResponseToken';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import {
+  API_URL_VACANCIES,
+  CLIENT_SECRET,
   Categories,
+  DEF_VAC,
   FilterCardProps,
   REMOVE_CATEGORY,
   REMOVE_SALARY_FROM,
   REMOVE_SALARY_TO,
+  SECRET_KEY,
 } from '../constants';
 
 const FilterCard = ({ handleFilteredJobs, search, setLoader, setSearch }: FilterCardProps) => {
@@ -18,47 +22,31 @@ const FilterCard = ({ handleFilteredJobs, search, setLoader, setSearch }: Filter
   const [selectedSalaryTo, setSelectedSalaryTo] = useState<number | ''>(0);
 
   useEffect(() => {
-    const fetchJobCategories = async () => {
-      const proxyUrl = 'https://startup-summer-2023-proxy.onrender.com/2.0/catalogues/';
-      const secretKey = 'GEU4nvd3rej*jeh.eqp';
-      try {
-        const accessToken = await getAccessToken();
-        const response = await axios.get(proxyUrl, {
-          headers: {
-            'X-Api-App-Id':
-              'v3.r.137440105.ffdbab114f92b821eac4e21f485343924a773131.06c3bdbb8446aeb91c35b80c42ff69eb9c457948',
-            'x-secret-key': secretKey,
-            Authorization: `Bearer ${accessToken}`,
-          },
-        });
-
-        const categories = response.data;
+    fetchJobCategories()
+      .then((categories) => {
         setJobCategories(categories);
-      } catch (error) {}
-    };
-    fetchJobCategories();
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }, []);
 
   const handleApplyFilter = async () => {
-    const endpoint = 'https://startup-summer-2023-proxy.onrender.com/2.0/vacancies/';
-    const secretKey = 'GEU4nvd3rej*jeh.eqp';
     setLoader(false);
 
     try {
       const accessToken = await getAccessToken();
 
-      const response = await axios.get(endpoint, {
+      const response = await axios.get(API_URL_VACANCIES, {
         headers: {
-          'X-Api-App-Id':
-            'v3.r.137440105.ffdbab114f92b821eac4e21f485343924a773131.06c3bdbb8446aeb91c35b80c42ff69eb9c457948',
-          'x-secret-key': secretKey,
+          'X-Api-App-Id': CLIENT_SECRET,
+          'x-secret-key': SECRET_KEY,
           Authorization: `Bearer ${accessToken}`,
         },
         params: {
           published: 1,
           keyword: search,
-          page: 0,
-          count: 4,
+          count: DEF_VAC,
           payment_from: selectedSalaryFrom === '' ? 0 : selectedSalaryFrom,
           payment_to: selectedSalaryTo === '' ? 0 : selectedSalaryTo,
           catalogues: selectedIndustry !== undefined ? selectedIndustry : undefined,
