@@ -46,7 +46,6 @@ export interface Vacancy {
 
 export interface VacanciesProps {
   vacancies: Vacancy[];
-  isErr: boolean;
   isLoaded: boolean;
   setLoader: React.Dispatch<React.SetStateAction<boolean>>;
   handleFilteredJobs: (filteredJobs: Vacancy[]) => void;

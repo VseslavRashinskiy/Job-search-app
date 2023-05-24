@@ -126,3 +126,8 @@ button:hover svg {
   max-width: 327px;
   margin: 0 auto;
 }
+
+.favorites {
+  max-width: 773px;
+  margin: 0 auto;
+}

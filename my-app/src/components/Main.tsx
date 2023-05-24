@@ -9,7 +9,6 @@ const Main = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [jobs, setJobs] = useState<Vacancy[]>([]);
   const [search, setSearch] = useState('');
-  const [isErr, setIsErr] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
@@ -33,7 +32,6 @@ const Main = () => {
         setIsLoaded(true);
       } catch (error) {
         setIsLoaded(true);
-        setIsErr(true);
       }
     };
     fetchJobVacancies();
@@ -46,6 +44,7 @@ const Main = () => {
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
   };
+  console.log(jobs);
   return (
     <div className="main">
       <FilterCard
@@ -58,7 +57,6 @@ const Main = () => {
         vacancies={jobs}
         handleFilteredJobs={handleFilteredJobs}
         setJobs={setJobs}
-        isErr={isErr}
         isLoaded={isLoaded}
         setLoader={setIsLoaded}
         setSearch={setSearch}

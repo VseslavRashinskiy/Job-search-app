@@ -12,6 +12,7 @@ import JobCard from './JobCard';
 import SearchBar from './Search';
 import { Text, Pagination } from '@mantine/core';
 import { useEffect, useState } from 'react';
+import EmptyPage from '../EmptyPage';
 
 const Vacancies = (props: VacanciesProps) => {
   const [countPages, setCountPages] = useState(MAX_API);
@@ -34,14 +35,16 @@ const Vacancies = (props: VacanciesProps) => {
         });
 
         const vacancies = response.data;
+        console.log(vacancies.objects, 'vac');
         props.setLoader(true);
         props.setJobs(vacancies.objects);
       } catch (error) {
+        console.log(error);
         props.setLoader(true);
       }
     };
     fetchJobVacancies();
-  }, [props, props.currentPage]);
+  }, [props.currentPage]);
 
   const handlePageChange = (newPage: number) => {
     props.setCurrentPage(newPage);
@@ -70,9 +73,8 @@ const Vacancies = (props: VacanciesProps) => {
           Loading <img height={22} src="https://i.ibb.co/RpSP280/6.gif" alt="loading"></img>
         </Text>
       ) : (
-        (!props.isErr && props.vacancies.map((el) => <JobCard key={el.id} el={el} />)) || (
-          <Text>Not Found</Text>
-        )
+        (props.vacancies.length !== 0 &&
+          props.vacancies.map((el) => <JobCard key={el.id} el={el} />)) || <EmptyPage />
       )}
 
       {totalPages > 1 && (
