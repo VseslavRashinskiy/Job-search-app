@@ -169,7 +169,7 @@ const FilterCard = ({ handleFilteredJobs, search, setLoader, setSearch }: Filter
         </div>
       </div>
       <Button
-        style={{ backgroundColor: '#5E96FC' }}
+        className="button"
         data-elem="search-button"
         onClick={handleApplyFilter}
         variant="filled"

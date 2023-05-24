@@ -40,7 +40,7 @@ const Favorites = () => {
                 total={totalPages}
                 value={activePage}
                 onChange={handlePageChange}
-                size="sm"
+                size="md"
                 radius="sm"
                 variant="outline"
               />

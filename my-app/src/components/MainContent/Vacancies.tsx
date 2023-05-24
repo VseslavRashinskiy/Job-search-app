@@ -15,6 +15,7 @@ import { useEffect, useState } from 'react';
 import EmptyPage from '../EmptyPage/EmptyPage';
 
 const Vacancies = (props: VacanciesProps) => {
+  const paginationSize = window.innerWidth < 570 ? 'sm' : 'md';
   const [countPages, setCountPages] = useState(MAX_API);
   const totalPages = Math.ceil(countPages / DEF_VAC);
 
@@ -38,7 +39,6 @@ const Vacancies = (props: VacanciesProps) => {
         props.setLoader(true);
         props.setJobs(vacancies.objects);
       } catch (error) {
-        console.log(error);
         props.setLoader(true);
       }
     };
@@ -77,12 +77,12 @@ const Vacancies = (props: VacanciesProps) => {
       )}
 
       {totalPages > 1 && (
-        <div style={{ display: 'flex', justifyContent: 'center', marginTop: '1rem' }}>
+        <div style={{ display: 'flex', justifyContent: 'center', marginTop: '40px' }}>
           <Pagination
             total={totalPages}
             value={props.currentPage}
             onChange={handlePageChange}
-            size="sm"
+            size={paginationSize}
             radius="sm"
             variant="outline"
           />
