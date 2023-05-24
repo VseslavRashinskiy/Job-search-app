@@ -1,6 +1,3 @@
-import { Button } from '@mantine/core';
-import { Link } from 'react-router-dom';
-
 const EmptyPage = () => {
   return (
     <div className="empty">
@@ -15,11 +12,6 @@ const EmptyPage = () => {
       >
         Упс, здесь еще ничего нет!
       </p>
-      <Link to="/">
-        <Button style={{ color: '#3B7CD3', background: '#DEECFF' }} radius="md">
-          Поиск Вакансий
-        </Button>
-      </Link>
     </div>
   );
 };

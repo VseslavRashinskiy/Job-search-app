@@ -4,6 +4,7 @@ import Header from './components/Header/Header';
 import Main from './components/Main';
 import SinglePage from './components/SinglePage/SinglePage';
 import Favorites from './components/Favorites/Favorites';
+import NotFound from './components/NotFound';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
           <Route path="/" element={<Main />} />
           <Route path="/favorites" element={<Favorites />} />
           <Route path="/:id" element={<SinglePage />}></Route>
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
     </Router>

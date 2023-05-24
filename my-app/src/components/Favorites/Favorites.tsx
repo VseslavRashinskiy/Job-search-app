@@ -1,14 +1,15 @@
 import JobCard from '../MainContent/JobCard';
 import { DEF_VAC, Vacancy } from '../constants';
-import EmptyPage from '../EmptyPageFavorites';
-import { Pagination } from '@mantine/core';
+import EmptyPage from '../EmptyPage/EmptyPage';
+import { Button, Pagination } from '@mantine/core';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const Favorites = () => {
   const [activePage, setActivePage] = useState(1);
 
   const savedItems = JSON.parse(localStorage.getItem('savedItems') || '[]');
-  const totalPages = savedItems.length / DEF_VAC;
+  const totalPages = Math.ceil(savedItems.length / DEF_VAC);
   const startIndex = (activePage - 1) * DEF_VAC;
   const endIndex = startIndex + DEF_VAC;
   const displayedVacancies = savedItems.slice(startIndex, endIndex);
@@ -19,7 +20,14 @@ const Favorites = () => {
   return (
     <div className="favorites">
       {savedItems.length === 0 ? (
-        <EmptyPage />
+        <div>
+          <EmptyPage />
+          <Link to="/">
+            <Button style={{ color: '#3B7CD3', background: '#DEECFF' }} radius="md">
+              Поиск Вакансий
+            </Button>
+          </Link>
+        </div>
       ) : (
         <>
           {displayedVacancies.map((el: Vacancy) => (
