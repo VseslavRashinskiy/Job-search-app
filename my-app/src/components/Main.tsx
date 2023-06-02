@@ -6,7 +6,7 @@ import { useState, useEffect } from 'react';
 import { API_URL_VACANCIES, CLIENT_SECRET, DEF_VAC, SECRET_KEY, Vacancy } from './constants';
 
 const Main = () => {
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(0);
   const [jobs, setJobs] = useState<Vacancy[]>([]);
   const [search, setSearch] = useState('');
   const [isLoaded, setIsLoaded] = useState(false);
